@@ -19,11 +19,11 @@ class Database:
 
         if response.ok:
             data = response.json()
-        else:
-            raise ConnectionError("Could not write to database: {}".format(response.text))
+            return data
+            raise ConnectionError("Could not read from database: {}".format(response.text))
          
 
-    def send(self, type, path, data):
+    def write(self, type, path, data):
 
         if type == "put":
             response = self.authed_session.put(self.db+path, json=data)
