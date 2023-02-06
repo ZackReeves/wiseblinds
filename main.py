@@ -1,28 +1,39 @@
 import time
 from database import Database
-from temp_sensor import Temp_Sensor
+from sensors import Temp_Sensor, Light_Sensor
 
 db = Database()
-sensor = Temp_Sensor()
+temp_sensor = Temp_Sensor()
+light_sensor = Light_Sensor()
+
 
 n=0
 while n<10:
 
-    sensor_data = sensor.measure()
+    light_sensor.measure()
 
-    print(f'TEMPERATURE:    Degrees: {sensor_data[0]:.2f}')
-    print(f'RH:    Percentage: {sensor_data[1]:.2f}')
+    print(light_sensor.is_night)
+
+    # sensor_data = temp_sensor.measure()
+
+    # print(f'TEMPERATURE:    Degrees: {sensor_data[0]:.2f}')
+    # print(f'RH:    Percentage: {sensor_data[1]:.2f}')
 
 
-    type = "put"
-    path = "timeseries/{}.json".format(time.ctime(time.time()))
-    data = {"n":n, "tmp": sensor_data[0], "rh":sensor_data[1]}
+    # type = "put"
+    # path = "nighttime/{}.json".format(time.ctime(time.time()))
+    # data = {"n":n, "is_night": light_sensor.is_night}
 
-    # type = "post"
-    # path = "postlist.json"
-    # data = {"n":n, "time": time.ctime(time.time()),"tmp": sensor_data[0], "rh":sensor_data[1]}
+    # # type = "post"
+    # # path = "postlist.json"
+    # # data = {"n":n, "time": time.ctime(time.time()),"tmp": sensor_data[0], "rh":sensor_data[1]}
 
-    db.write(type, path, data)
+    # path = "timeseries.json"
+    # query = "?orderByChild=\"$time\"&startAt=\"{}\"&endAt=\"{}\"".format(int(time.time()-400), int(time.time())) # request between certain timeframe"
+
+    # db.read(path, query)
+
+    # db.write(type, path, data)
 
     
     time.sleep(1)
