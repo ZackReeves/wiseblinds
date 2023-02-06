@@ -10,7 +10,6 @@ class Temp_Sensor:
 
         self.cmd_measure_tmp = smbus2.i2c_msg.write(self.si7021_ADD,[self.si7021_READ_TEMPERATURE])
         self.cmd_measure_rh = smbus2.i2c_msg.write(self.si7021_ADD,[self.si7021_READ_RH])
-        self.cmd_measure_both = smbus2.i2c_msg.write(self.si7021_ADD,[self.si7021_READ_TEMPERATURE, self.si7021_READ_RH])
 
         self.tmp_result = smbus2.i2c_msg.read(self.si7021_ADD,2)
         self.rh_result = smbus2.i2c_msg.read(self.si7021_ADD,2)
@@ -32,12 +31,11 @@ class Temp_Sensor:
         time.sleep(0.1)
         self.bus.i2c_rdwr(self.rh_result)
     
-    def measure(self, what="both"):
-        if what != "tmp":
+    def measure(self, both="both"):
+        if both != "tmp":
             self.read_rh()
-        if what != "rh":
+        if both != "rh":
             self.read_temp()
-
         
         temperature_sensor = int.from_bytes(self.tmp_result.buf[0]+self.tmp_result.buf[1],'big')
         rh_sensor = int.from_bytes(self.rh_result.buf[0]+self.rh_result.buf[1],'big')
