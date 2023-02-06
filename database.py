@@ -20,6 +20,7 @@ class Database:
         if response.ok:
             data = response.json()
             return data
+        else:
             raise ConnectionError("Could not read from database: {}".format(response.text))
          
 
