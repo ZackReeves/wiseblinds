@@ -23,21 +23,15 @@ def main():
 
     while True:
 
-        # light_sensor.measure()
-        # sensor_data = temp_sensor.measure()
+        light_sensor.measure()
+        sensor_data = temp_sensor.measure()
 
-        type = "put"
-        path = "mannual/{}.json".format(int(time.time()))
-        data = {"position": 1}
+        send_nighttime(light_sensor, db)
+        send_temp_rh(sensor_data, db)
 
-        db.write(type, path, data)
-
-        # send_nighttime(light_sensor, db)
-        # send_temp_rh(sensor_data, db)
-
-        # print(light_sensor.is_night)
-        # print(f'TEMPERATURE:    Degrees: {sensor_data[0]:.2f}')
-        # print(f'RH:    Percentage: {sensor_data[1]:.2f}')
+        print(light_sensor.is_night)
+        print(f'TEMPERATURE:    Degrees: {sensor_data[0]:.2f}')
+        print(f'RH:    Percentage: {sensor_data[1]:.2f}')
 
         time.sleep(1)
 

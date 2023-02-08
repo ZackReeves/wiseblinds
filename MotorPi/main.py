@@ -29,7 +29,7 @@ def main():
     db = Database()
     
     nighttime = False
-    mannual = 0
+    mannual = 1
 
     n = 0
     while n<10:
