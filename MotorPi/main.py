@@ -1,5 +1,5 @@
 from database import Database
-# from motor import Motor
+from motor import Motor
 import time
 
 def read_mannual(db):
@@ -27,6 +27,7 @@ def read_nightime(db):
 
 def main():
     db = Database()
+    curtains = Motor()
     
     nighttime = False
     mannual = 1
@@ -37,12 +38,16 @@ def main():
 
         if 0 <= mannual <= 1:
             print("mannual")
+            curtains.move(mannual)
+
         else:
             nighttime = read_nightime(db)
             if nighttime:
                 print("auto close")
+                curtains.move(0)
             else:
                 print("auto open")
+                curtains.move(1)
 
         time.sleep(1)
         n += 1
