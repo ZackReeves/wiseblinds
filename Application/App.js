@@ -60,10 +60,13 @@ const App = () => {
         <View>
           <View style={styles.headerContainer}>
             <Text style={styles.headerText}>WiseBlinds</Text>
+          <View>
           </View>
-          <Text style = { styles.titleStyle}>Temperature: {temperature}</Text>
-          <Text style = { styles.titleStyle}>Humidity: {humidity}</Text>
+            <Text style={styles.titleStyle}>Temperature: {Math.round(temperature, 1)}</Text>
+            <Text style={styles.titleStyle}>Humidity: {Math.round(humidity, 1)}</Text>
+          </View>
         </View>
+
         <View style={styles.footerContainer}>
           <Button theme="primary" label="Open" data='1' />
           <Button theme="primary" label="Close" data='0' />
