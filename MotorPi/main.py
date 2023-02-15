@@ -35,8 +35,6 @@ def read_voice(db):
         val = data[i]["disabled"]
         return val
 
-def clapper():
-    pass
 
 def main():
     db = Database()
