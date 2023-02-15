@@ -43,6 +43,10 @@ def read_voice(db):
         val = data[i]["disabled"]
         return val
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6215a57174b41ee0aa2e5ccbd2422a07d2592237
 def main():
     db = Database()
     curtains = Motor()
