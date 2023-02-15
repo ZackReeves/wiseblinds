@@ -67,9 +67,9 @@ class Light_Sensor:
 
         diff *= 1000
 
-        if self.is_night and diff < 20:
+        if self.is_night and diff < 15:
             self.is_night = False
-        elif not self.is_night and diff > 25:
+        elif not self.is_night and diff > 20:
             self.is_night = True
         else:
             pass

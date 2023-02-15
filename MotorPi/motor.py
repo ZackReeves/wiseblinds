@@ -11,7 +11,7 @@ class Motor:
 
         self.servo = Servo(self.motor_pin,min_pulse_width=self.minPW,max_pulse_width=self.maxPW)
 
-        self.time_to_close = 5
+        self.time_to_close = 10
 
         self.current_state = 1 #0:closed 1:open
 
