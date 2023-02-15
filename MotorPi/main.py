@@ -42,7 +42,7 @@ def main():
     db = Database()
     curtains = Motor()
 
-    clapper = DigitalInputDevice(17, pull_up=False, active_state=None, bounce_time=0.5)
+    clapper = DigitalInputDevice(27, pull_up=False, active_state=None, bounce_time=0.5)
 
     nighttime = False
     mannual = 1
