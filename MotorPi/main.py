@@ -12,6 +12,14 @@ def read_mannual(db):
         val = data[i]["position"]
         return val
     
+def send_mannual(db, pos):
+
+    type = "put"
+    path = "mannual.json"
+    data = {"position": pos}
+
+    db.write(type, path, data)
+    
 def read_nightime(db):
     filter_size = 5
 
@@ -35,9 +43,6 @@ def read_voice(db):
         val = data[i]["disabled"]
         return val
 
-def clapper():
-    pass
-
 def main():
     db = Database()
     curtains = Motor()
@@ -53,25 +58,27 @@ def main():
 
         if not voice_disabled and clapper.value == 1:
             print("clap heard")
-            if curtains.state <= 0.5:
-                curtains.move(1)
+            if curtains.current_state <= 0.5:
+                new_position = 1
+            elif curtains.current_state > 0.5:
+                new_position = 0    
 
-            elif curtains.state > 0.5:
-                curtains.move(0)
+            curtains.move(new_position)
+            send_mannual(db, new_position)
 
         else:
             if 0 <= mannual <= 1:
-                if curtains.state != mannual:
+                if curtains.current_state != mannual:
                     print("mannual")
                     curtains.move(mannual)
             else:
                 nighttime = read_nightime(db)
                 if nighttime:
-                    if curtains.state != 0:
+                    if curtains.current_state != 0:
                         print("auto close")
                         curtains.move(0)
                 else:
-                    if curtains.state != 1:
+                    if curtains.current_state != 1:
                         print("auto open")
                         curtains.move(1)
 
