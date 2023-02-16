@@ -39,7 +39,7 @@ async function sendDataToFirebase(data) {
 export default function Button({ label, theme, data }) {
   if (theme === "manual") {
     return (
-      <View style={[styles.buttonContainer, { marginTop: 10 }]}>
+      <View style={[styles.buttonContainer, { marginTop: 20 }]}>
         <Pressable
           style={[styles.button, { backgroundColor: 'transparent' }]}
           onPress={() => {
@@ -56,7 +56,7 @@ export default function Button({ label, theme, data }) {
   }
   if (theme === "voicecontrol") {
     return (
-      <View style={[styles.buttonContainer, { marginTop: 10 }]}>
+      <View style={[styles.buttonContainer, { marginTop: 20 }]}>
         <Pressable
           style={[styles.button, { backgroundColor: 'transparent' }]}
           onPress={() => {
@@ -74,6 +74,7 @@ export default function Button({ label, theme, data }) {
 }
 
 const styles = StyleSheet.create({
+
   buttonContainer: {
     width: 150,
     height: 60,

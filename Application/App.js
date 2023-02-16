@@ -1,13 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useState, useEffect} from 'react';
-import {SafeAreaView, Switch, View, Text, ImageBackground, StyleSheet, Image,} from 'react-native';
-
-
+import {SafeAreaView, Switch, View, Text, ImageBackground, StyleSheet, Image, TouchableOpacity} from 'react-native';
 
 import Button from './components/Button';
 
-
 const BackgroundImage = require('./assets/background.jpg');
+const LogoImage = require('./assets/logo.png');
 
 // ---------------------------get_temp_data_from_firebase------------------------
 
@@ -39,15 +37,42 @@ async function fetchTemperatureData() {
   }
 }
 //-----------------------------------Switch-----------------------------------------------------------
-
-
 const App = () => {
 
+  
   const [temperature, setTemperature] = useState(null);
   const [humidity, setHumidity] = useState(null);
-  const [switchValue, setSwitchValue] = useState(false);
+  const [isOn, setIsOn] = useState(false);
+  const[previousState, setSwitchValue] = useState(false)
+  // const [accessToken, setAccessToken] = useState(Null);
+  
+  const toggleSwitch = () => setSwitchValue(previousState => !previousState)
+  
+  
+
 
   useEffect(() => {
+
+    // var {google} = require("googleapis");
+
+    // var serviceAccount = require("./wiseblinds-firebase-adminsdk-pkvk1-ad89d55f1f.json")
+
+    // var scopes = [
+    //   "https://www.googleapis.com/auth/userinfo.email",
+    //   "https://www.googleapis.com/auth/firebase.database"
+    // ];
+
+    // var jwtClient = new google.auth.JWT(
+    //   serviceAccount.client_email,
+    //   null,
+    //   serviceAccount.private_key,
+    //   scopes
+    // );
+
+    // jwtClient.authorize(function(error, tokens) {
+    //   setAccessToken(tokens.access_token);
+    // });
+
     const intervalId = setInterval(() => {
       fetchTemperatureData().then(data => {
         setTemperature(data[0]);
@@ -57,19 +82,19 @@ const App = () => {
 
     return () => clearInterval(intervalId);
   }, []);
-
-  const toggleSwitch = () => setSwitchValue(previousState => !previousState)
+  
 
   return (
+    
     <SafeAreaView style={styles.container}>
       <ImageBackground source={BackgroundImage} style={styles.backgroundstyle} resizeMode="cover">
+      <View style={styles.logoContainer}>
+    <Image source={LogoImage} style={styles.logo} />
+  </View>
         <View>
-          <View style={styles.headerContainer}>
-            <Text style={styles.headerText}>WiseBlinds</Text>
-          </View>
           <View>
-            <Text style={styles.titleStyle}>Temperature: {Math.round(temperature, 1)}</Text>
-            <Text style={styles.titleStyle}>Humidity: {Math.round(humidity, 1)}</Text>
+            <Text style={styles.titleStyle}>Temperature: {Math.round(temperature, 2)}</Text>
+            <Text style={styles.titleStyle}>Humidity: {Math.round(humidity, 2)}</Text>
           </View>
         </View>
 
@@ -77,16 +102,10 @@ const App = () => {
           <Button theme="manual" label="Open" data='1' />
           <Button theme="manual" label="Close" data='0' />
           <Button theme="manual" label="Automatic" data='2' />
-          <View style={styles.switchContainer}>
-          <Text style={styles.switchtextStyle}>{switchValue ? 'Switch is ON' : 'Switch is OFF'}</Text>
-          </View>
-          <Switch
-            style={{ marginTop: 0 }}
-            
-            onValueChange={console.log("test")}
-            value={switchValue} 
-            />
-          </View>
+          <TouchableOpacity onPress={toggleSwitch} style={isOn ? styles.buttonOn : styles.buttonOff}>
+            <Button  theme="voicecontrol" label = "Voice Control" data ={previousState}/>
+          </TouchableOpacity> 
+        </View>
       <StatusBar style="auto" />
       </ImageBackground>
     </SafeAreaView>
@@ -98,12 +117,34 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  headerContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
+  buttonOn: {
+    width: 150,
+    height: 60,
     backgroundColor: 'transparent',
-    paddingBottom: 20
+    borderRadius: 100,
+    marginHorizontal: 20,
+    marginVertical: 20,
+    padding: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
+  buttonOff: {
+    width: 150,
+    height: 40,
+    backgroundColor: 'transparent',
+    borderRadius: 100,
+    marginHorizontal: 20,
+    marginVertical: 20,
+    padding: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+
   headerText: {
     fontSize: 50,
     fontWeight: 'bold',
@@ -120,7 +161,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   titleStyle: {
-    fontSize: 28,
+    fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'left',
     padding: 10,
@@ -133,18 +174,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#transparent',
     color: 'white',
   },
-  switchContainer:{
+  logoContainer: {
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'transparent',
-    paddingTop: 10
+    paddingBottom: 20,
   },
-  switchtextStyle:{
-      fontSize: 14,
-      fontWeight: 'bold',
-      textAlign: 'left',
-      padding: 10,
-      color: 'white',
+  logo: {
+    width: 200,
+    height: 200,
   },
 
 });
