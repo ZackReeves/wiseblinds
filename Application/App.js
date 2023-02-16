@@ -44,7 +44,7 @@ const App = () => {
   const [humidity, setHumidity] = useState(null);
   const [isOn, setIsOn] = useState(false);
   const[previousState, setSwitchValue] = useState(false)
-  // const [accessToken, setAccessToken] = useState(Null);
+  const [accessToken, setAccessToken] = useState(Null);
   
   const toggleSwitch = () => setSwitchValue(previousState => !previousState)
   
@@ -53,33 +53,27 @@ const App = () => {
 
   useEffect(() => {
 
-    // var {google} = require("googleapis");
-
-    // var serviceAccount = require("./wiseblinds-firebase-adminsdk-pkvk1-ad89d55f1f.json")
-
-    // var scopes = [
-    //   "https://www.googleapis.com/auth/userinfo.email",
-    //   "https://www.googleapis.com/auth/firebase.database"
-    // ];
-
-    // var jwtClient = new google.auth.JWT(
-    //   serviceAccount.client_email,
-    //   null,
-    //   serviceAccount.private_key,
-    //   scopes
-    // );
-
-    // jwtClient.authorize(function(error, tokens) {
-    //   setAccessToken(tokens.access_token);
-    // });
-
-    const intervalId = setInterval(() => {
-      fetchTemperatureData().then(data => {
-        setTemperature(data[0]);
-        setHumidity(data[1]);
-      });
-    }, 1200); // 2 minutes = 120 seconds = 120000 milliseconds
-
+  var {google} = require("googleapis"
+  var serviceAccount = require("./wiseblinds-firebase-adminsdk-pkvk1-ad89d55f1f.json
+  var scopes = [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/firebase.database"
+  
+  var jwtClient = new google.auth.JWT(
+    serviceAccount.client_email,
+    null,
+    serviceAccount.private_key,
+    scopes
+  
+  jwtClient.authorize(function(error, tokens) {
+    setAccessToken(tokens.access_token);
+  }
+  const intervalId = setInterval(() => {
+    fetchTemperatureData().then(data => {
+      setTemperature(data[0]);
+      setHumidity(data[1]);
+    });
+  }, 1200); // 2 minutes = 120 seconds = 120000 milliseconds
     return () => clearInterval(intervalId);
   }, []);
   
