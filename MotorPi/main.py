@@ -7,18 +7,19 @@ ID = 0
 
 def read_mannual(db):
     path = "mannual.json"
-    query = "?orderBy=\"ID\"&equalTo={}&limitToLast={}".format(int(ID), int(1))
+    query = "?orderBy=\"ID\"&equalTo=\"{}\"&limitToLast={}".format(int(ID), int(1))
 
     data = db.read(path, query)
     for i in data:
         val = data[i]["position"]
-        return val
+        return int(val)
     
 def send_mannual(db, pos):
 
     type = "put"
-    path = "mannual.json"
-    data = {"position": pos}
+    path = "mannual/{}.json".format(int(time.time()))
+    data = {"ID": str(ID),
+        "position": pos}
 
     db.write(type, path, data)
     
@@ -38,7 +39,7 @@ def read_nightime(db):
 
 def read_voice(db):
     path = "voice.json"
-    query = "?orderBy=\"ID\"&equalTo={}&limitToLast={}".format(int(ID), int(1))
+    query = "?orderBy=\"ID\"&equalTo=\"{}\"&limitToLast={}".format(int(ID), int(1))
 
     data = db.read(path, query)
     for i in data:
@@ -49,7 +50,7 @@ def main():
     db = Database()
     curtains = Motor()
 
-    clapper = DigitalInputDevice(27, pull_up=False, active_state=None, bounce_time=0.5)
+    clapper = DigitalInputDevice(27, pull_up=False, active_state=None, bounce_time=300)
 
     nighttime = False
     mannual = 1
@@ -66,7 +67,7 @@ def main():
                 new_position = 0    
 
             curtains.move(new_position)
-            send_mannual(db, new_position)
+            send_mannual(db, str(new_position))
 
         else:
             if 0 <= mannual <= 1:

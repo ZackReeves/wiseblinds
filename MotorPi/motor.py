@@ -11,7 +11,7 @@ class Motor:
 
         self.servo = Servo(self.motor_pin,min_pulse_width=self.minPWM,max_pulse_width=self.maxPWM)
 
-        self.time_to_close = 6
+        self.time_to_close = 1
 
         self.current_state = 0 #0:closed 1:open
 
@@ -28,13 +28,16 @@ class Motor:
         if self.current_state != next_state:
             if next_state > self.current_state:
                 self.direction = 1
+                self.length = 6
             else:
                 self.direction = -1
+                self.length = 7
+
 
             self.stop_motor()
 
             self.servo.value = self.direction * self.speed
-            time.sleep(abs(next_state-self.current_state)*self.time_to_close)
+            time.sleep(abs(next_state-self.current_state)*self.time_to_close*self.length)
                 
             self.stop_motor()
 
