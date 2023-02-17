@@ -3,9 +3,11 @@ from motor import Motor
 from gpiozero import DigitalInputDevice
 import time
 
+ID = 0
+
 def read_mannual(db):
     path = "mannual.json"
-    query = "?orderBy=\"$key\"&limitToLast={}".format(int(1))
+    query = "?orderBy=\"ID\"&equalTo={}&limitToLast={}".format(int(ID), int(1))
 
     data = db.read(path, query)
     for i in data:
@@ -36,17 +38,13 @@ def read_nightime(db):
 
 def read_voice(db):
     path = "voice.json"
-    query = "?orderBy=\"$key\"&limitToLast={}".format(int(1))
+    query = "?orderBy=\"ID\"&equalTo={}&limitToLast={}".format(int(ID), int(1))
 
     data = db.read(path, query)
     for i in data:
         val = data[i]["disabled"]
         return val
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 6215a57174b41ee0aa2e5ccbd2422a07d2592237
 def main():
     db = Database()
     curtains = Motor()
