@@ -33,7 +33,7 @@ def main():
         print(f'TEMPERATURE:    Degrees: {sensor_data[0]:.2f}')
         print(f'RH:    Percentage: {sensor_data[1]:.2f}')
 
-        time.sleep(1)
+        time.sleep(6000) # Reads and sends every 10 minutes
 
 if __name__ == "__main__":
     main()
