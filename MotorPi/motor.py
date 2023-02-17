@@ -6,29 +6,30 @@ class Motor:
         self.motor_pin = 17
         self.correction = 0
 
-        self.maxPWM = (2+self.correction)/1000
-        self.minPWM = (1-self.correction)/1000
+        self.maxPWM = 2300/1000000
+        self.minPWM = 700/1000000
 
-        self.servo = Servo(self.motor_pin,min_pulse_width=self.minPW,max_pulse_width=self.maxPW)
+        self.servo = Servo(self.motor_pin,min_pulse_width=self.minPWM,max_pulse_width=self.maxPWM)
 
-        self.time_to_close = 10
+        self.time_to_close = 6
 
-        self.current_state = 1 #0:closed 1:open
+        self.current_state = 0 #0:closed 1:open
 
         self.speed = 0.5
-        self.stop = -0.16
+        self.stop = -0.0025
         self.direction = 1
 
     def stop_motor(self):
+        #self.motor_pin = 27
         self.servo.value = self.stop
-        time.sleep(0.5)
+        time.sleep(1)
     
-    def move_curtains(self, next_state):
+    def move(self, next_state):
         if self.current_state != next_state:
             if next_state > self.current_state:
-                self.direction = -1
-            else:
                 self.direction = 1
+            else:
+                self.direction = -1
 
             self.stop_motor()
 
@@ -38,3 +39,6 @@ class Motor:
             self.stop_motor()
 
             self.current_state = next_state
+        else:
+            self.stop_motor()
+            print("do nothing")
