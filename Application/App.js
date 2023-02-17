@@ -13,7 +13,7 @@ const LogoImage = require('./assets/logo.png');
 async function fetchTemperatureData() {
   var now = Math.floor(Date.now() / 1000);  
 
-  var url = `https://wiseblinds-default-rtdb.europe-west1.firebasedatabase.app/temp_rh.json?orderBy="$key"&startAt="${now-60}"&endAt="${now}"`;
+  var url = `https://wiseblinds-default-rtdb.europe-west1.firebasedatabase.app/temp_rh.json?orderBy="$key"&startAt="${now-3600}"&endAt="${now}"`;
   
   try {
     const response = await fetch(url);
@@ -80,7 +80,7 @@ const App = () => {
         setTemperature(data[0]);
         setHumidity(data[1]);
       });
-    }, 1200); // 2 minutes = 120 seconds = 120000 milliseconds
+    }, 60000); // 2 minutes = 120 seconds = 120000 milliseconds
 
     return () => clearInterval(intervalId);
   }, []);
@@ -106,8 +106,8 @@ const App = () => {
             <Image source={LogoImage} style={styles.logo} />
           </View>
           <View>
-            <Text style={styles.titleStyle}>Temperature: {Math.round(temperature, 2)}</Text>
-            <Text style={styles.titleStyle}>Humidity: {Math.round(temperature, 2)}</Text>
+            <Text style={styles.titleStyle}>Temperature: {Math.round(temperature*100)/100}</Text>
+            <Text style={styles.titleStyle}>Humidity: {Math.round(humidity*100)/100}</Text>
           </View>
         </View>
         <View style={styles.footerContainer}>
