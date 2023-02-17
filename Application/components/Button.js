@@ -36,16 +36,17 @@ async function sendDataToFirebase(data) {
 
 
 
-export default function Button({ label, theme, data }) {
+export default function Button({ label, theme, data, id }) {
   if (theme === "manual") {
     return (
-      <View style={[styles.buttonContainer, { marginTop: 20 }]}>
+      <View style={[styles.buttonContainer, { marginTop: 10}]}>
         <Pressable
           style={[styles.button, { backgroundColor: 'transparent' }]}
           onPress={() => {
             console.log("zack smells very good")
             sendDataToFirebase({
-            position: data,
+              ID: id,
+              position: data,
           });
         }}
         >
@@ -56,12 +57,13 @@ export default function Button({ label, theme, data }) {
   }
   if (theme === "voicecontrol") {
     return (
-      <View style={[styles.buttonContainer, { marginTop: 20 }]}>
+      <View style={[styles.buttonSecondContainer, { marginTop: 10 }]}>
         <Pressable
           style={[styles.button, { backgroundColor: 'transparent' }]}
           onPress={() => {
             console.log("zack smells very not disabled")
             sendVoiceDataToFirebase({
+            ID: id,
             disabled: data,
           });
         }}
@@ -74,6 +76,17 @@ export default function Button({ label, theme, data }) {
 }
 
 const styles = StyleSheet.create({
+  buttonSecondContainer: {
+    width: 150,
+    height: 60,
+    marginHorizontal: 20,
+    marginVertical: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 0,
+    backgroundColor: 'transparent',
+    color: 'white',
+  },
 
   buttonContainer: {
     width: 150,

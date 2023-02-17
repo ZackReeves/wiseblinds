@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useState, useEffect} from 'react';
 import {SafeAreaView, Switch, View, Text, ImageBackground, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 
 import Button from './components/Button';
 
@@ -44,7 +45,8 @@ const App = () => {
   const [humidity, setHumidity] = useState(null);
   const [isOn, setIsOn] = useState(false);
   const[previousState, setSwitchValue] = useState(false)
-  const [accessToken, setAccessToken] = useState(Null);
+  const [selectedValue, setSelectedValue] = useState('0');
+  // const [accessToken, setAccessToken] = useState(Null);
   
   const toggleSwitch = () => setSwitchValue(previousState => !previousState)
   
@@ -53,58 +55,75 @@ const App = () => {
 
   useEffect(() => {
 
-  var {google} = require("googleapis"
-  var serviceAccount = require("./wiseblinds-firebase-adminsdk-pkvk1-ad89d55f1f.json
-  var scopes = [
-    "https://www.googleapis.com/auth/userinfo.email",
-    "https://www.googleapis.com/auth/firebase.database"
-  
-  var jwtClient = new google.auth.JWT(
-    serviceAccount.client_email,
-    null,
-    serviceAccount.private_key,
-    scopes
-  
-  jwtClient.authorize(function(error, tokens) {
-    setAccessToken(tokens.access_token);
-  }
-  const intervalId = setInterval(() => {
-    fetchTemperatureData().then(data => {
-      setTemperature(data[0]);
-      setHumidity(data[1]);
-    });
-  }, 1200); // 2 minutes = 120 seconds = 120000 milliseconds
+    // var {google} = require("googleapis");
+
+    // var serviceAccount = require("./wiseblinds-firebase-adminsdk-pkvk1-ad89d55f1f.json")
+
+    // var scopes = [
+    //   "https://www.googleapis.com/auth/userinfo.email",
+    //   "https://www.googleapis.com/auth/firebase.database"
+    // ];
+
+    // var jwtClient = new google.auth.JWT(
+    //   serviceAccount.client_email,
+    //   null,
+    //   serviceAccount.private_key,
+    //   scopes
+    // );
+
+    // jwtClient.authorize(function(error, tokens) {
+    //   setAccessToken(tokens.access_token);
+    // });
+
+    const intervalId = setInterval(() => {
+      fetchTemperatureData().then(data => {
+        setTemperature(data[0]);
+        setHumidity(data[1]);
+      });
+    }, 1200); // 2 minutes = 120 seconds = 120000 milliseconds
+
     return () => clearInterval(intervalId);
   }, []);
   
 
   return (
-    
     <SafeAreaView style={styles.container}>
       <ImageBackground source={BackgroundImage} style={styles.backgroundstyle} resizeMode="cover">
-      <View style={styles.logoContainer}>
-    <Image source={LogoImage} style={styles.logo} />
-  </View>
-        <View>
+        <View style={styles.pickerContainer}>
+          <Picker style={{ width: 100, height: 50, color: "white" }}></Picker>
+          <Picker
+            selectedValue={selectedValue}
+            style={{ height: 50, width: 150, color: "white" }}
+            onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+          >
+            <Picker.Item theme="voicecontrol" label="Bedroom" value="0" />
+            <Picker.Item theme="voicecontrol" label="Lounge" value="1" />
+            <Picker.Item theme="voicecontrol" label="Kitchen" value="2" />
+          </Picker>
+        </View>
+        <View style={styles.imageContainer}>
+          <View style={styles.logoContainer}>
+            <Image source={LogoImage} style={styles.logo} />
+          </View>
           <View>
             <Text style={styles.titleStyle}>Temperature: {Math.round(temperature, 2)}</Text>
-            <Text style={styles.titleStyle}>Humidity: {Math.round(humidity, 2)}</Text>
+            <Text style={styles.titleStyle}>Humidity: {Math.round(temperature, 2)}</Text>
           </View>
         </View>
-
         <View style={styles.footerContainer}>
-          <Button theme="manual" label="Open" data='1' />
-          <Button theme="manual" label="Close" data='0' />
-          <Button theme="manual" label="Automatic" data='2' />
-          <TouchableOpacity onPress={toggleSwitch} style={isOn ? styles.buttonOn : styles.buttonOff}>
-            <Button  theme="voicecontrol" label = "Voice Control" data ={previousState}/>
-          </TouchableOpacity> 
+          <Button theme="manual" label="Open" data='1' id={selectedValue} />
+          <Button theme="manual" label="Close" data='0'id={selectedValue} />
+          <Button theme="manual" label="Automatic" data='2' id={selectedValue}/>
+          <View style={{ flexDirection: 'row' }}>
+            <Button theme="voicecontrol" label="Voice On" data={false} id={selectedValue}/>
+            <Button theme="voicecontrol" label="Voice Off" data={true} id={selectedValue}/>
+          </View>
         </View>
-      <StatusBar style="auto" />
+        <StatusBar style="auto" />
       </ImageBackground>
     </SafeAreaView>
-
   );
+  
 };
 export default App;
 const styles = StyleSheet.create({
@@ -150,7 +169,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   imageContainer: {
-    flex: 1,
+    flex: 0.6,
     paddingTop: 10,
     justifyContent: 'center',
   },
@@ -163,7 +182,7 @@ const styles = StyleSheet.create({
   },
 
   footerContainer: {
-    flex: 1/3,
+    flex: 1/2,
     alignItems: 'center',
     backgroundColor: '#transparent',
     color: 'white',
@@ -178,5 +197,6 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
   },
+  
 
 });
