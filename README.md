@@ -3,7 +3,7 @@ Wise Blinds - Embedded Systems CW1
 
 This repository contains all the files developed as part of ELEC60013 - Embedded Systems, completed Spring 2023.
 
-Wise Blinds is an IoT powered smart curtain devices intended to improve sleep quality and environment control. It contains a range of sensors which are controlled by raspberry pis measuring:
+Wise Blinds is an IoT powered smart curtain device intended to improve sleep quality and environment control. It contains a range of sensors which are controlled by raspberry pis measuring:
 
 - Temperature
 - Humidity
