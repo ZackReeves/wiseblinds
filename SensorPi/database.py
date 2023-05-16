@@ -6,7 +6,7 @@ class Database:
 
     def __init__(self):
         self.db = "https://wiseblinds-default-rtdb.europe-west1.firebasedatabase.app/"
-        self.keyfile = "wiseblinds-firebase-adminsdk-pkvk1-ad89d55f1f.json"
+        self.keyfile = #Private keyfile to access database
         self.scopes = [
             "https://www.googleapis.com/auth/userinfo.email",
             "https://www.googleapis.com/auth/firebase.database"
